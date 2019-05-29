@@ -1,8 +1,16 @@
-'use strict';
+let money, time;
 
+function start() {
+    money = +prompt("Ваш бюджет на месяц?", '');
+    time = prompt('Введите дату в формате YYYY-MM-DD', '');
 
-let money = +prompt("Ваш бюджет на месяц?", ""),
-time = prompt('Введите дату в формате YYYY-MM-DD', "");
+    //isNaN возвращает tru если не цифры
+    while (isNaN(money) || money == "" || money == null) {
+        money = +prompt("Ваш бюджет на месяц?", '');
+    }
+}
+
+start();
 
 let appData = {
     budget: money,
@@ -10,73 +18,27 @@ let appData = {
     optionalExpenses: {},
     timeData: time,
     income: [],
-    savings: false,
+    savings: true,
 };
 
-for (let i=0; i<2; i++ ){
-    let a = prompt ("Введите обязательную статью расходов в этом месяце", ""),
-        b = prompt ("Во сколько обойдется?", "");
+// фун-я выбора обязательных расходов
+function chooseExpense(){
+    for (let i = 0; i < 2; i++) {
+        let a = prompt ("Введите обязательную статью расходов в этом месяце", ""),
+            b = prompt ("Во сколько обойдется?", "");
 
-    //прописываем условия ввода пользователю
-    if ( typeof(a)==='string' && typeof(a) != null && typeof(b) != null
-        && a != "" && b != "" && a.length < 50) {
-
-        console.log("done");
-
-        appData.expenses[a] = b;
-    }else {
-        console.log("not correctly input")
-        i--;
-    }
-};
-
-//Используем цикл while
-/*
-let i = 0;
-while (i<2) {
-    let a = prompt("Введите обязательную статью расходов в этом месяце", ""),
-        b = prompt("Во сколько обойдется?", "");
-
-    if (!(typeof (a) === 'string' && typeof (a) != null && typeof (b) != null
-        && a != "" && b != "" && a.length < 50)) {
-
-        console.log("done");
-
-        appData.expenses[a] = b;
-
-    } else {
-        console.log("not correctly input);
-        i--;
-    }
-    i++;
-};*/
+        //прописываем условия ввода пользователю
+        if ( typeof(a)==='string' && typeof(a) != null && typeof(b) != null && a != "" && b != "" && a.length < 50) {
+            appData.expenses[a] = b;
+        } else {
+            i--;
+        }
+    };
+}
+chooseExpense();
 
 
-//Используем цикл Do..... while
-
-// let i = 0;
-// do {
-//     let a = prompt ("Введите обязательную статью расходов в этом месяце", ""),
-//         b = prompt ("Во сколько обойдется?", "");
-
-//     if ( typeof(a)==='string' && typeof(a) != null && typeof(b) != null && a != "" && b != "" && a.length < 50) {
-
-//         console.log ("done");
-
-//         appData.expenses[a] = b;
-
-//     } else {
-//          console.log ("bad result");
-//          i--;
-//     }
-//     i++;
-// }
-// while(i < 2);
-
-
-
-
-appData.moneyPerDay = appData.budget/30;
+appData.moneyPerDay = (appData.budget/30).toFixed();//округляем до целых
 
 
 alert ("Бюджет на 1 день составляет " + appData.moneyPerDay + "руб.");
@@ -91,3 +53,17 @@ if (appData.moneyPerDay < 100){
 }else {
     console.log("It's finance error");
 }
+
+//фун-я, которая рассчитывает накопления с депозита если он есть
+function checkSavings() {
+   /* проверяем условие есть ли сбережения и узнаем сумму накоплений и под какой%
+     после получения этих данных рассчитываем сколько человек сможет заработать*/
+   if (appData.savings == true){
+       let save = +prompt("Какая сумма сбережений?"),// + для того чтобы получить цифр знач-е
+           percent = +prompt("Какой % ?");
+
+       appData.monthProfit = save/100/12*percent;
+       alert("Доход за месяц с вашего депозита : " + appData.monthProfit);
+    }
+}
+checkSavings();
