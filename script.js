@@ -1,3 +1,7 @@
+
+'use strict';
+
+
 let money, time;
 
 function start() {
@@ -9,8 +13,8 @@ function start() {
         money = +prompt("Ваш бюджет на месяц?", '');
     }
 }
-
 start();
+
 
 let appData = {
     budget: money,
@@ -20,6 +24,7 @@ let appData = {
     income: [],
     savings: true,
 };
+
 
 // фун-я выбора обязательных расходов
 function chooseExpense(){
@@ -38,21 +43,28 @@ function chooseExpense(){
 chooseExpense();
 
 
-appData.moneyPerDay = (appData.budget/30).toFixed();//округляем до целых
-
-
-alert ("Бюджет на 1 день составляет " + appData.moneyPerDay + "руб.");
-
-
-if (appData.moneyPerDay < 100){
-    console.log("It's a minimal profit");
-}else if (appData.moneyPerDay > 100 && appData.moneyPerDay < 1000){
-    console.log("It's a normal profit");
-}else if (appData.moneyPerDay > 1000){
-    console.log("It's a hight profit");
-}else {
-    console.log("It's finance error");
+     //Расчет дневного бюджета
+function detectDayBudget(){
+    appData.moneyPerDay = (appData.budget/30).toFixed();//округляем до целых
+    alert ("Бюджет на 1 день составляет " + appData.moneyPerDay + "руб.");
 }
+detectDayBudget();
+
+
+        //Расчет уровня достатка
+function detectLevel() {
+    if (appData.moneyPerDay < 100){
+        console.log("It's a minimal profit");
+    }else if (appData.moneyPerDay > 100 && appData.moneyPerDay < 1000){
+        console.log("It's a normal profit");
+    }else if (appData.moneyPerDay > 1000){
+        console.log("It's a hight profit");
+    }else {
+        console.log("It's finance error");
+   }
+}
+detectLevel();
+
 
 //фун-я, которая рассчитывает накопления с депозита если он есть
 function checkSavings() {
@@ -67,3 +79,15 @@ function checkSavings() {
     }
 }
 checkSavings();
+
+
+       //Фун-я для определения необязательных расходов
+function chooseOptExpenses() {
+    for (let i=1; i<=3; i++) {
+        let questionOptExpenses = prompt("Статья необязательных расходов ?");
+        appData.optionalExpenses[i] = questionOptExpenses;//ответ в объект записываем в формате
+                                                          // номер[i] - Ответ
+        console.log(appData.optionalExpenses);
+    }
+}
+chooseOptExpenses();
