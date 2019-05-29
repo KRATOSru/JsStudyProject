@@ -85,8 +85,7 @@ checkSavings();
 function chooseOptExpenses() {
     for (let i=1; i<=3; i++) {
         let questionOptExpenses = prompt("Статья необязательных расходов ?");
-        appData.optionalExpenses[i] = questionOptExpenses;//ответ в объект записываем в формате
-                                                          // номер[i] - Ответ
+        appData.optionalExpenses[i] = questionOptExpenses;//ответ в объект записываем в формате номер[i] - Ответ
         console.log(appData.optionalExpenses);
     }
 }
