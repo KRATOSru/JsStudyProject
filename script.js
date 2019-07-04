@@ -38,6 +38,7 @@ let startBtn = document.getElementById("start"),//кнопка начать ра
 
 let money, time;
 
+
 startBtn.addEventListener('click', function () {
     time = prompt('Введите дату в формате YYYY-MM-DD', '');
     money = +prompt("Ваш бюджет на месяц?", '');
@@ -54,6 +55,7 @@ startBtn.addEventListener('click', function () {
     monthValue.value = new Date(Date.parse(time)).getMonth() + 1;
     dayValue.value = new Date(Date.parse(time)).getDate();
 });
+
 
 expensesBtn.addEventListener('click', function () {
     //получаем сумму всех ценников
@@ -74,6 +76,7 @@ expensesBtn.addEventListener('click', function () {
     expensesValue.textContent = sum;
 });
 
+
 optionalExpensesBtn.addEventListener('click', function () {
     for (let i = 0; i <= optionalExpensesItem.length; i++) {
         let opt = optionalExpensesItem[i].value;
@@ -82,6 +85,76 @@ optionalExpensesBtn.addEventListener('click', function () {
     }
 });
 
+
+countBtn.addEventListener('click', function () {
+    if (appData.budget != undefined){
+        //определяем бюджет на день и записываем его в глобальный обЬект
+        appData.moneyPerDay = (appData.budget / 30).toFixed();//округляем до целых
+        dayBudgetValue.textContent = appData.moneyPerDay;//выводим его на страницу
+
+        if (appData.moneyPerDay < 100) { //расчет ур-ня достатка
+            levelValue.textContent = 'Its a minimal profit';
+        } else if (appData.moneyPerDay > 100 && appData.moneyPerDay < 1000) {
+            levelValue.textContent = 'Its a normal profit';
+        } else if (appData.moneyPerDay > 1000) {
+            levelValue.textContent = 'Its a hight profit';
+        } else {
+            levelValue.textContent = 'Its finance error';
+        }
+    } else {
+        dayBudgetValue.textContent = 'An error has occurred';
+    }
+});
+
+
+incomeItem.addEventListener('input', function () {  //дополнительный доход
+    let items = incomeItem.value;
+    appData.income = items.split(', ');//записываем в виде массива через ,
+    incomeValue.textContent = appData.income; //чтобы значения появлялись  сразу при вводе в поле доп-е доходы
+});
+
+                    //checkbox
+checkSavings.addEventListener('click', function () {
+    //если app.Data true то выключаем его false
+    if (appData.savings == true){
+        appData.savings = false;
+    }else { // или кликаем его еще раз и включаем
+        appData.savings = true;
+    }
+});
+
+
+sumValue.addEventListener('input', function () {
+    if (appData.savings == true){
+        //то что пол-ль вводит в поле сумма то запис-ся в переменную sum
+        let sum = +sumValue.value,
+            percent = +percentValue.value;//аналогично с процентами
+
+        appData.monthProfit = sum / 100 / 12 * percent;//месяц
+        appData.yearProfit = sum / 100 * percent;//год
+
+        //выводим на экран
+        monthSavingsValue.textContent = appData.monthProfit.toFixed(1);//округляем
+        yearSavingsValue.textContent = appData.yearProfit.toFixed(1);//округляем
+    }
+});
+
+
+percentValue.addEventListener('input', function () {
+    if (appData.savings == true){
+            let sum = +sumValue.value,
+                percent = +percentValue.value;//аналогично с процентами
+
+            appData.monthProfit = sum / 100 / 12 * percent;//месяц
+            appData.yearProfit = sum / 100 * percent;//год
+
+            //выводим на экран
+            monthSavingsValue.textContent = appData.monthProfit.toFixed(1);//округляем
+            yearSavingsValue.textContent = appData.yearProfit.toFixed(1);//округляем
+        }
+});
+
+
 let appData;
 appData = {
     budget: money,
@@ -89,62 +162,6 @@ appData = {
     optionalExpenses: {},
     timeData: time,
     income: [],
-    savings: true,
-    // chooseExpense: function () { // фун-я выбора обязательных расходов
-    //
-    // },
-    detectDayBudget: function () {   //Расчет дневного бюджета
-        appData.moneyPerDay = (appData.budget / 30).toFixed();//округляем до целых
-        alert("Бюджет на 1 день составляет " + appData.moneyPerDay + "руб.");
-    },
-    detectLevel: function () {     //Расчет уровня достатка
-        if (appData.moneyPerDay < 100) {
-            console.log("It's a minimal profit");
-        } else if (appData.moneyPerDay > 100 && appData.moneyPerDay < 1000) {
-            console.log("It's a normal profit");
-        } else if (appData.moneyPerDay > 1000) {
-            console.log("It's a hight profit");
-        } else {
-            console.log("It's finance error");
-        }
-    },
-    checkSavings: function () {  //фун-я, которая рассчитывает накопления с депозита если он есть
-        /* проверяем условие есть ли сбережения и узнаем сумму накоплений и под какой%
-         после получения этих данных рассчитываем сколько человек сможет заработать*/
-        if (appData.savings == true) {
-            let save = +prompt("Какая сумма сбережений?"),// + для того чтобы получить цифр знач-е
-                percent = +prompt("Какой % ?");
-
-            appData.monthProfit = save / 100 / 12 * percent;// заменена appData.monthIncome
-            alert("Доход за месяц с вашего депозита : " + appData.monthProfit);
-        }
-    },
-    // chooseOptExpenses: function () {   //Фун-я для определения необязательных расходов
-    //
-    // },
-    chooseIncome: function () {   // фун-я дополнительного дохода
-
-        //спрашиваем у пользователя, что принесет дополнительный доход
-        let items = prompt('Что принесет доп profit? (ПЕречислите через запятую)', "");
-        //строку данные переводим в массив  команда split
-
-        if (typeof (items) != "string" || items == "" || typeof (items) == null) {
-            console.log("Вы ввели некорректные данные или не ввели их вовсе");
-        } else {
-            appData.income = items.split(', ');
-            //добавляем в конец массива с помощью push
-            appData.income.push(prompt('Может что-то еще добавить?'));
-            //отсортируем по алфавиту
-            appData.income.sort();
-        }
-
-        appData.income.forEach(function (itemmassive, i) {
-            alert("Способы допополнительного заработка: " + (i + 1) + " - " + itemmassive);
-
-        })
-    }
+    savings: false,
 };
 
-for (let key in appData) {
-    console.log("Наша программа включает в себя данные: " + key + " - " + appData[key]);
-}
