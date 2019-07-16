@@ -2,41 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
     <title>JsStudy</title>
-<!--    <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700&amp;subset=cyrillic" rel="stylesheet">-->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="app">
     <div class="logo">
-        <span>money</span>
-        keeper
+        <span><h1>Money keeper</h1></span>
+
     </div>
     <div class="title">
-        Расчет дневного бюджета
+        <h1>Расчет дневного бюджета</h1>
     </div>
     <div class="main">
         <div class="data">
-            <div class="choose-expenses">Введите обязательные расходы</div>
+            <div class="choose-expenses"><h2>Введите обязательные расходы</h2></div>
             <input class="expenses-item" type="text" id="expenses_1" placeholder="Наименование">
             <input class="expenses-item" type="text" id="expenses_2" placeholder="Цена">
             <input class="expenses-item" type="text" id="expenses_3" placeholder="Наименование">
             <input class="expenses-item" type="text" id="expenses_4" placeholder="Цена">
             <button class="expenses-item-btn">Утвердить</button>
 
-            <div class="optionalexpenses">Введите необязательные расходы</div>
+            <div class="optionalexpenses"><h2>Введите статьи необязательных расходов</h2></div>
             <input class="optionalexpenses-item" type="text" id="optionalexpenses_1">
             <input class="optionalexpenses-item" type="text" id="optionalexpenses_2">
             <input class="optionalexpenses-item" type="text" id="optionalexpenses_3">
             <button class="optionalexpenses-btn">Утвердить</button>
 
-            <div class="count-budget">Расчет дневного бюджета</div>
-            <button class="count-budget-btn">Рассчитать</button>
-
-            <div class="choose-income-label">Введите статьи возможного дохода через запятую</div>
+            <div class="choose-income-label"><h2>Введите статьи возможного дохода через запятую</h2></div>
             <input class="choose-income" type="text" id="income">
+
+            <div class="count-budget"><h2>Добавляем возможные накопления</h2></div>
 
             <div class="checksavings">Есть ли накопления:
                 <input id="savings" type="checkbox" />
@@ -45,14 +41,12 @@
             <input class="choose-sum" id="sum" type="text">
             <label for="percent">Процент</label>
             <input class="choose-percent" id="percent" type="text">
+            <button class="count-budget-btn">Рассчитать</button>
 
-            <div class="open">
-                <button class="start" id="start">Начать расчет</button>
-            </div>
         </div>
         <div class="result">
             <div class="result-table">
-                <div class="budget">Доход: </div>
+                <div class="budget">Доход:< </div>
                 <div class="budget-value"></div>
 
                 <div class="daybudget">Бюджет на 1 день: </div>
@@ -88,6 +82,9 @@
                 <div class="day">
                     День:
                     <input class="day-value" type="text" readonly>
+                </div>
+                <div class="open">
+                    <button class="start" id="start">НАЧАТЬ РАССЧЕТ</button>
                 </div>
             </div>
         </div>
